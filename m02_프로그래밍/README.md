@@ -14,4 +14,4 @@
 \0: 8진수 값  
 
 
-*'task_0424'* 다양한 솔루션 : isalnum() 메서드 활용, re.match(r' ',x) 활용, isidentifier() 활용
+*'task_0424'* 다양한 솔루션 : isalnum() 메서드 활용, re.match(r' ',x) 활용, isidentifier() 활용  
