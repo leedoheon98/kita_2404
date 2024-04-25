@@ -1,0 +1,24 @@
+###  유효한 변수명인지 확인하는 함수 만들어보기(주피터노트북)  ###
+
+import re
+import keyword
+
+def find_valid_identifiers(identifiers):
+    valid_identifiers = []
+    for identifier in identifiers:
+        # 변수 이름이 숫자로 시작하는지 확인하고 continue
+        if not identifier[0].isalpha():
+            continue
+        # 변수 이름에 특수문자가 포함되는지 확인하고 continue
+        if not re.match('^\w+$', identifier):
+            continue
+        # 변수 이름에 예약어가 포함되는지 확인하고 continue
+        if keyword.iskeyword(identifier):
+            continue
+        # 유효한 변수명 만을 valid_identifiers 에 추가
+        valid_identifiers.append(identifier)
+    return valid_identifiers
+
+identifiers = ["var1", "2things", "variable_name", "time!"]
+valid_identifiers = find_valid_identifiers(identifiers)
+print(valid_identifiers)
