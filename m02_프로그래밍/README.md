@@ -18,3 +18,4 @@
   
 # 리스트
 list.sort(reverse=True) : 내림차순
+list1[::-1] : 리스트 거꾸로 나열
