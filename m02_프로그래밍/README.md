@@ -17,5 +17,6 @@
 \0: 8진수 값  
   
 # 리스트
-list.sort(reverse=True) : 내림차순
-list1[::-1] : 리스트 거꾸로 나열
+list.sort(reverse=True) : 내림차순  
+list1[::-1] : 리스트 거꾸로 나열  
+리스트명[start : end : step]  
