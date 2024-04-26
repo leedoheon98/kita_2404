@@ -20,3 +20,10 @@
 list.sort(reverse=True) : 내림차순  
 list1[::-1] : 리스트 거꾸로 나열  
 리스트명[start : end : step]  
+  
+# *'task_0425'*  
+Q1. 리스트의 최소값, 최대값 구하기 : min(), max() 메서드 이용해서 하기, lst.sort() 이후 0번째 인덱스와 -1번째 인덱스를 출력하기. for 문으로 크기를 하나씩 비교하기  
+Q2. 합계 / len() 도 가능하고, numpy 모듈을 import 해서 np.mean() 메서드 활용도 가능  
+Q3. indexes=[index for index, value in enumerate() if value == target ] 와 같이도 풀이 가능  
+ (index와 value 값을 enumerate(lst) 값에서 가져와서 value 는 target 과 비교하기위해 사용하고 index는 index 를 뽑기 위해 'index for index ---' 와 같이 사용  
+Q4. 핵심은 연속적인 반복요소만 제거이기 때문에 리스트 안 요소 하나만 가져와서 -1 과 비교해서 같지않을때만 append. (만약 연속적인 리스트가 아니라면 sort를 하면 똑같이 사용가능)  
