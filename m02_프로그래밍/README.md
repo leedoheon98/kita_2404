@@ -38,3 +38,9 @@ try :
 except ValueError :  
   ...  
 
+# 루프 안에서 제외 시키고 싶은 구절이 있을 때  
+if i == 0 :  
+  continue  
+  print("이 부분은 출력이 안됩니다")  
+
+위와 같이 사용 가능
