@@ -52,5 +52,8 @@ last_names = ["Doe", "Smith", "Turner", "Williams"]
 full_names = [first + " " + last for first, last in zip(first_names, last_names)]  
 print(full_names)  
 
->>> [ 리스트 속 for ~ in 구문이 잘 적응이 안됨. ]
+>>> [ 리스트 속 for ~ in 구문이 잘 적응이 안됨. ]  
 >>> [ 인자1 + " " + 인자2 for 인자1, 인자2 in (튜플 or 리스트)]
+
+
+
