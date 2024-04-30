@@ -27,3 +27,6 @@ Q2. 합계 / len() 도 가능하고, numpy 모듈을 import 해서 np.mean() 메
 Q3. indexes=[index for index, value in enumerate() if value == target ] 와 같이도 풀이 가능  
  (index와 value 값을 enumerate(lst) 값에서 가져와서 value 는 target 과 비교하기위해 사용하고 index는 index 를 뽑기 위해 'index for index ---' 와 같이 사용  
 Q4. 핵심은 연속적인 반복요소만 제거이기 때문에 리스트 안 요소 하나만 가져와서 -1 과 비교해서 같지않을때만 append. (만약 연속적인 리스트가 아니라면 sort를 하면 똑같이 사용가능)  
+
+# *'task_0429'*  
+파이썬에서 리스트 처음이나 중간에 추가하는법 : append로는 불가능 lst.insert(1, '_') 와 같이 insert로 인덱스 [1] 번째에 추가 가능  
