@@ -53,7 +53,9 @@ full_names = [first + " " + last for first, last in zip(first_names, last_names)
 print(full_names)  
 
 >>> [ 리스트 속 for ~ in 구문이 잘 적응이 안됨. ]  
->>> [ 인자1 + " " + 인자2 for 인자1, 인자2 in (튜플 or 리스트)]
-
-
-
+>>> [ 인자1 + " " + 인자2 for 인자1, 인자2 in (튜플 or 리스트)]  
+  
+# *'task2_0430'*  
+소문자만 표현: string.ascii_lowercase  
+대문자만 표현: string.ascii_uppercase  
+대소문자 모두 표현: string.ascii_letters  
