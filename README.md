@@ -9,3 +9,6 @@ m7. NLP 응용
 m8. 자연어 처리 챗봇 개발 프로젝트  
 m9. VISION 응용  
 m10. 최종 프로젝트  
+  
+# memo
+- 학원 평가 사이트 : http://itgn.cafe24.com/
