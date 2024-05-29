@@ -1,6 +1,6 @@
 about ...
 # Pandas
-> Series
-> DataFrame
+- Series
+- DataFrame
 
 # Numpy
