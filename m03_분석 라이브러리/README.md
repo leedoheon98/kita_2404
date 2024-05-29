@@ -4,3 +4,4 @@ about ...
 - DataFrame
 
 # Numpy
+- Random Methods
