@@ -12,3 +12,4 @@ m10. 최종 프로젝트
   
 # Memo
 - 학원 평가 사이트 : http://itgn.cafe24.com/
+- 유용한 사이트들 : 니파, ai-hub(ai 관련 채용 회사), upstage ai
