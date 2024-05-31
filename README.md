@@ -1,5 +1,5 @@
 # 코리아 IT 아카데미
-
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fleedoheon98%2Fkita_2404&count_bg=%2379C83D&title_bg=%23555555&icon=github.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 ## AI기반 챗봇 및 OCR개발 전문가 과정 (24.04.24 ~ 24.10.28)
 M1. 데이터베이스 구축 및 활용  
 M2. 프로그래밍 (파이썬)  
