@@ -1,4 +1,4 @@
 ## Contents
-- [hr](#hr) : Human Resources dataset
+- hr : Human Resources dataset
 - md : Madang dataset
 - school_management : Simple project about managing students records
