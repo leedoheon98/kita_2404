@@ -1,10 +1,4 @@
-## This directory contains analysis libraries for data processing and visualization.
-
-
-about ...
-### Pandas
-- Series
-- DataFrame
-
-### Numpy
-- Random Methods
+# m03_분석 라이브러리
+- pandas
+- numpy
+- matplotlib
