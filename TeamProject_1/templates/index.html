@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+책사이트 이름 - 프로젝트 개요
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="project-title container p-4 shadow-sm fade-in">
+        <h1>5Team project</h1>
+        <div class="text-end">
+            <a href="{{ url_for('static', filename='ppt/your_presentation.pptx') }}" target="_blank">
+                <img src="{{ url_for('static', filename='img/ppt.png') }}" alt="ppt 이미지" class="central-image img-fluid rounded shadow-sm right-align-image">
+            </a>
+        </div>
+    </section>
+</main>
+{% endblock %}

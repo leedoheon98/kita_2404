@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Insights Visualization (Yes24 Data)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>연령대별 인사이트 시각화 (Yes24 데이터)</h1>
+    
+    <label for="ageSelect">연령대 선택:</label>
+    <select id="ageSelect">
+        <option value="10">10대</option>
+        <option value="20">20대</option>
+        <option value="30">30대</option>
+        <option value="40">40대</option>
+        <option value="50">50대</option>
+        <option value="60">60대 이상</option>
+    </select>
+    <button onclick="generateInsights()">Submit</button>
+
+    <div id="chartsContainer">
+        <div class="chartContainer">
+            <h2 id="topCategoriesTitle"></h2>
+            <canvas id="topCategoriesChart" width="100" height="100"></canvas>
+        </div>
+
+        <div class="chartContainer">
+            <h2 id="ageRatioTitle"></h2>
+            <canvas id="ageRatioChart" width="100" height="100"></canvas>
+        </div>
+
+        <div class="chartContainer">
+            <h2 id="genderRatioTitle"></h2>
+            <canvas id="genderRatioChart" width="100" height="100"></canvas>
+        </div>
+
+        <div class="chartContainer">
+            <h2 id="pageLengthTitle"></h2>
+            <canvas id="pageLengthChart" width="100" height="100"></canvas>
+        </div>
+
+        <div class="chartContainer">
+            <h2 id="priceRangeTitle"></h2>
+            <canvas id="priceRangeChart" width="100" height="100"></canvas>
+        </div>
+    </div>
+
+    <script>
+        var bookData = [];  // 데이터를 저장할 전역 변수
+
+        $(document).ready(function() {
+            $.ajax({
+                url: 'static/yes24.csv',  // 적절한 경로로 수정
+                dataType: 'text',
+                success: function(data) {
+                    console.log("CSV data loaded successfully");
+                    bookData = parseData(data);
+                    console.log("Parsed book data:", bookData);
+                    generateInsights();  // 데이터 로드 후 시각화 함수 호출
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Error loading CSV:", textStatus, errorThrown);
+                    alert("데이터 로딩 중 오류가 발생했습니다.");
+                }
+            });
+        });
+
+        function parseData(data) {
+            var lines = data.trim().split('\n');
+            var headers = lines[0].split(',');
+            var parsedData = [];
+
+            for (var i = 1; i < lines.length; i++) {
+                var columns = lines[i].split(',');
+                if (columns.length === headers.length) {
+                    var book = {
+                        Category: columns[2],
+                        Title: columns[3].startsWith('"') && columns[1].endsWith('"') ? columns[1].slice(1, -1) : columns[3],
+                        Author: columns[4].startsWith('"') && columns[2].endsWith('"') ? columns[2].slice(1, -1) : columns[4],
+                        Publisher: columns[5],
+                        Sales_Index: parseInt(columns[8]),
+                        Gender: parseInt(columns[11]),
+                        Age: parseInt(columns[12]),
+                        Page_cat: columns[15],
+                        Price_cat: columns[16]
+                    };
+                    parsedData.push(book);
+                } else {
+                    console.log("Invalid line:", lines[i]);
+                }
+            }
+            return parsedData;
+        }
+
+        function generateInsights() {
+            var age = document.getElementById('ageSelect').value;
+            var filteredData = bookData.filter(function(item) {
+                return item.Age.toString() === age;
+            });
+
+            var preferences = calculateTopCategories(filteredData);
+            var ageRatio = calculateAgeRatio(bookData, age);
+            var genderRatio = calculateGenderRatio(filteredData);
+            var pageLengthPreference = calculatePageLengthPreference(filteredData);
+            var priceRangePreference = calculatePriceRangePreference(filteredData);
+
+            document.getElementById('topCategoriesTitle').innerText = `${age}대가 선호하는 카테고리 TOP 5`;
+            document.getElementById('ageRatioTitle').innerText = `전체 독자 중 ${age}대 비율`;
+            document.getElementById('genderRatioTitle').innerText = `${age}대 독자 남녀 비율`;
+            document.getElementById('pageLengthTitle').innerText = `${age}대 독자들이 선호하는 책 길이`;
+            document.getElementById('priceRangeTitle').innerText = `${age}대 독자들이 선호하는 책의 가격`;
+
+            destroyChart('topCategoriesChart');
+            destroyChart('ageRatioChart');
+            destroyChart('genderRatioChart');
+            destroyChart('pageLengthChart');
+            destroyChart('priceRangeChart');
+
+            drawBarChart('topCategoriesChart', preferences);
+            drawPieChart('ageRatioChart', ageRatio, `${age}대`);
+            drawPieChart('genderRatioChart', genderRatio, `${age}대 독자 남녀 비율`);
+            drawBarChart('pageLengthChart', pageLengthPreference);
+            drawBarChart('priceRangeChart', priceRangePreference);
+        }
+
+        function calculateTopCategories(data) {
+            var categorySales = {};
+            data.forEach(function(item) {
+                if (categorySales[item.Category]) {
+                    categorySales[item.Category] += item.Sales_Index;
+                } else {
+                    categorySales[item.Category] = item.Sales_Index;
+                }
+            });
+
+            var sortedCategories = Object.keys(categorySales).sort(function(a, b) {
+                return categorySales[b] - categorySales[a];
+            }).slice(0, 5);
+
+            return sortedCategories.map(function(cat) {
+                return {
+                    label: cat,
+                    value: categorySales[cat]
+                };
+            });
+        }
+
+        function calculateAgeRatio(data, age) {
+            var totalBooks = data.length;
+            var ageBooks = data.filter(function(item) {
+                return item.Age.toString() === age;
+            }).length;
+
+            var ratio = (ageBooks / totalBooks) * 100;
+            return {
+                labels: ['나이대 비율', '나머지'],
+                values: [ratio, 100 - ratio]
+            };
+        }
+
+        function calculateGenderRatio(data) {
+            var genderCounts = {0: 0, 1: 0};  // 0: 여성, 1: 남성
+            data.forEach(function(item) {
+                genderCounts[item.Gender]++;
+            });
+
+            return {
+                labels: ['여성', '남성'],
+                values: [genderCounts[0], genderCounts[1]]
+            };
+        }
+
+        function calculatePageLengthPreference(data) {
+            var pageCategories = {};
+            data.forEach(function(item) {
+                if (pageCategories[item.Page_cat]) {
+                    pageCategories[item.Page_cat]++;
+                } else {
+                    pageCategories[item.Page_cat] = 1;
+                }
+            });
+
+            var sortedCategories = Object.keys(pageCategories).sort();
+            return sortedCategories.map(function(cat) {
+                return {
+                    label: cat,
+                    value: pageCategories[cat]
+                };
+            });
+        }
+
+        function calculatePriceRangePreference(data) {
+            var priceCategories = {};
+            data.forEach(function(item) {
+                if (priceCategories[item.Price_cat]) {
+                    priceCategories[item.Price_cat]++;
+                } else {
+                    priceCategories[item.Price_cat] = 1;
+                }
+            });
+
+            var sortedCategories = Object.keys(priceCategories).sort();
+            return sortedCategories.map(function(cat) {
+                return {
+                    label: cat,
+                    value: priceCategories[cat]
+                };
+            });
+        }
+
+        function drawBarChart(canvasId, data) {
+            var ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(function(item) { return item.label; }),
+                    datasets: [{
+                        label: '판매 지수',
+                        data: data.map(function(item) { return item.value; }),
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function drawPieChart(canvasId, data, title) {
+            var ctx = document.getElementById(canvasId).getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: title,
+                        data: data.values,
+                        backgroundColor: ['lightblue', 'lightpink'],
+                        borderColor: 'white',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            });
+        }
+
+        function destroyChart(canvasId) {
+            var chartInstance = Chart.getChart(canvasId);
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+        }
+    </script>
+</body>
+</html>

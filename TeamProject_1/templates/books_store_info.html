@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %}Leaflet 한국 지도 예제{% endblock %}
+
+{% block content %}
+<div id="mapContainer">
+    <div id="map" style="height: 600px;"></div>
+</div>
+<div id="seoulMapContainer" style="display: none;">
+    <div id="seoulMap" style="height: 600px;"></div>
+    <button id="backButton" class="btn btn-primary">돌아가기</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Initialize the main map
+    var mainMap = L.map('map').setView([36.5, 127.5], 7);
+    var seoulMap = null; // Variable to store the Seoul map object
+
+    // Add a tile layer to the main map
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '지도 데이터 &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> 기여자들'
+    }).addTo(mainMap);
+
+    var markers = []; // Array to store bookstore markers
+    var 서점데이터 = null; // Variable to store bookstore data
+    var seoulBookStoreData = null; // Variable to store Seoul bookstore data
+
+    // Load bookstore data and add markers to the main map
+    $.getJSON('static/book_store_all.json', function(data) {
+        서점데이터 = data;
+
+        // Calculate the number of bookstores in each region
+        var 지역별개수 = {};
+        서점데이터.forEach(function(서점) {
+            var 지역 = 서점['시/도'];
+            if (!지역별개수[지역]) {
+                지역별개수[지역] = 0;
+            }
+            지역별개수[지역]++;
+        });
+
+        // Load the geojson file for region boundaries
+        $.getJSON('static/TL_SCCO_CTPRVN.json', function(data) {
+            L.geoJSON(data, {
+                style: function(feature) {
+                    var 지역명 = feature.properties.CTP_KOR_NM;
+                    var 서점개수 = 지역별개수[지역명] || 0;
+
+                    // Set fill color based on the number of bookstores
+                    var fillColor = getColor(서점개수);
+
+                    return {
+                        weight: 1,
+                        opacity: 1,
+                        color: 'black',
+                        fillOpacity: 0.7,
+                        fillColor: fillColor
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    var 지역명 = feature.properties.CTP_KOR_NM;
+                    var 서점개수 = 지역별개수[지역명] || 0;
+
+                    if (지역명 === '서울특별시') {
+                        // Bind popup and handle click for Seoul region
+                        layer.bindPopup('<p>' + 지역명 + ' 서점 개수: ' + 서점개수 + '</p><button id="seoulMapButton" class="btn btn-primary">지도확인</button>');
+                        layer.on('popupopen', function() {
+                            $('#seoulMapButton').on('click', function() {
+                                $('#mapContainer').hide();
+                                $('#seoulMapContainer').show();
+
+                                if (seoulMap) {
+                                    seoulMap.remove();
+                                    seoulMap = null;
+                                }
+
+                                // Load Seoul bookstore data and create Seoul map
+                                $.getJSON('static/book_store.json', function(seoulData) {
+                                    seoulBookStoreData = seoulData;
+
+                                    // Calculate the number of bookstores in each Seoul district
+                                    var 서울지역별개수 = {};
+                                    seoulBookStoreData.forEach(function(서점) {
+                                        var 지역 = 서점['시/군/구'];
+                                        if (!서울지역별개수[지역]) {
+                                            서울지역별개수[지역] = 0;
+                                        }
+                                        서울지역별개수[지역]++;
+                                    });
+
+                                    // Initialize the Seoul map
+                                    seoulMap = L.map('seoulMap').setView([37.5665, 126.978], 11);
+
+                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                        maxZoom: 18,
+                                        attribution: '지도 데이터 &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> 기여자들'
+                                    }).addTo(seoulMap);
+
+                                    // Load the geojson file for Seoul district boundaries
+                                    var seoulUrl = 'static/Seoul_Gu.json';
+                                    $.getJSON(seoulUrl, function(seoulBoundaryData) {
+                                        L.geoJSON(seoulBoundaryData, {
+                                            style: function(feature) {
+                                                var 지역명 = feature.properties.SIG_KOR_NM;
+                                                var 서점개수 = 서울지역별개수[지역명] || 0;
+
+                                                // Set fill color based on the number of bookstores
+                                                var fillColor = getColor_seoul(서점개수);
+
+                                                return {
+                                                    weight: 1,
+                                                    opacity: 1,
+                                                    color: 'black',
+                                                    fillOpacity: 0.7,
+                                                    fillColor: fillColor
+                                                };
+                                            },
+                                            onEachFeature: function(feature, layer) {
+                                                var 지역명 = feature.properties.SIG_KOR_NM;
+                                                var 서점개수 = 서울지역별개수[지역명] || 0;
+
+                                                // 각 구 클릭 시 팝업 표시
+                                                layer.bindPopup('<p>' + 지역명 + ' 서점 개수: ' + 서점개수 + '</p>');
+                                            }
+                                        }).addTo(seoulMap);
+
+                                        // Update map size
+                                        seoulMap.invalidateSize();
+                                    });
+                                });
+                            });
+                        });
+                    } else {
+                        // Bind popup for other regions
+                        layer.bindPopup('<p>' + 지역명 + ' 서점 개수: ' + 서점개수 + '</p>');
+                    }
+                }
+            }).addTo(mainMap);
+        });
+    });
+
+    // Function to get color based on the number of bookstores
+    function getColor(개수) {
+        return 개수 > 400 ? '#7f2704' :
+               개수 > 200 ? '#a63603' :
+               개수 > 150 ? '#e6550d' :
+               개수 > 100 ? '#fd8d3c' :
+               개수 > 50 ? '#fdbe85' :
+               개수 > 20 ? '#fee6ce' :
+                            '#fff5eb';
+    }
+    function getColor_seoul(개수) {
+        return 개수 > 100 ? '#7f2704' :
+               개수 > 70 ? '#a63603' :
+               개수 > 50 ? '#e6550d' :
+               개수 > 30 ? '#fd8d3c' :
+               개수 > 20 ? '#fdbe85' :
+               개수 > 10 ? '#fee6ce' :
+                            '#fff5eb';
+    }
+
+    // Handle click event for 'Back to Main Map' button
+    $('#backButton').click(function() {
+        if (seoulMap) {
+            seoulMap.remove();
+            seoulMap = null;
+        }
+        $('#seoulMapContainer').hide();
+        $('#mapContainer').show();
+    });
+</script>
+
+{% endblock %}

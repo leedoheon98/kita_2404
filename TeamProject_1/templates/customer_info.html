@@ -1,0 +1,335 @@
+{% extends "base.html" %}
+{% block title %}Leaflet 한국 지도 예제{% endblock %}
+
+{% block content %}
+<div id="map"></div>
+
+<div class="legend">
+    <div class="legend-title">지역별 인구분포</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #b10026;"></span> 5,000,000 이상</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #e31a1c;"></span> 3,000,000 - 5,000,000</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #fc4e2a;"></span> 2,000,000 - 3,000,000</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #fd8d3c;"></span> 1,800,000 - 2,000,000</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #feb24c;"></span> 1,600,000 - 1,800,000</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #fed976;"></span> 1,400,000 - 1,600,000</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #ffeda0;"></span> 1,200,000 - 1,400,000</div>
+    <div class="legend-item"><span class="legend-color" style="background-color: #ffffcc;"></span> 1,000,000 - 1,200,000</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="seoulModal" tabindex="-1" aria-labelledby="seoulModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seoulModalLabel">Seoul Districts</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalMap"></div>
+                <div id="chartContainer" class="mt-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="text-center">성별 인구 비율</h5>
+                            <canvas id="genderChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <h5 class="text-center">연령대별 인구 분포</h5>
+                            <canvas id="ageDistributionChart" width="15" height="15"></canvas>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <p><b>총 인구 수</b>: <span id="totalPopulation"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>    
+    var map = L.map('map').setView([36.5, 127.5], 7);
+    var markers = [];
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var genderChart; // 성별 인구 비율 차트
+    var ageDistributionChart; // 연령대별 인구 분포 차트
+    var seoulPopulationData = {};
+
+    $.ajax({
+    url: 'static/population(seoul).csv',
+    dataType: 'text',
+    success: function(data) {
+        var lines = data.split('\n');
+        lines.forEach(function(line) {
+            var columns = line.split(',');
+            if (columns[1] && columns[2] && columns[3] && columns[4]) {
+                if (!seoulPopulationData[columns[1]]) {
+                    seoulPopulationData[columns[1]] = {};
+                }
+                if (!seoulPopulationData[columns[1]][columns[2]]) {
+                    seoulPopulationData[columns[1]][columns[2]] = {};
+                }
+                seoulPopulationData[columns[1]][columns[2]][columns[3]] = parseInt(columns[4]);
+            }
+        });
+        
+    }
+});
+
+function updateMarkerVisibility() {
+    var currentZoom = map.getZoom();
+    markers.forEach(marker => {
+        if (currentZoom < 11) {
+            marker.setOpacity(0);
+        } else {
+            marker.setOpacity(1);
+        }
+    });
+}
+
+// 지도 줌 레벨 변경 이벤트 리스너
+map.on('zoomend', updateMarkerVisibility);
+
+function createPopupContent(districtName) {
+    var content = '<div><h4>' + districtName + '</h4>';
+    content += '<canvas id="populationChart_' + districtName.replace(/\s+/g, '') + '" width="300" height="200"></canvas></div>';
+    return content;
+}
+
+function createPopupChart(districtName) {
+    var canvasId = 'populationChart_' + districtName.replace(/\s+/g, '');
+    var ctx = document.getElementById(canvasId).getContext('2d');
+    var districtData = seoulPopulationData[districtName];
+    
+    if (!districtData) {
+        console.error('No data available for', districtName);
+        return;
+    }
+    
+    var labels = ['0-9세', '10대', '20대', '30대', '40대', '50대', '60대이상'];
+    var maleData = labels.map(age => districtData['남자'][age] || 0);
+    var femaleData = labels.map(age => districtData['여자'][age] || 0);
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: '남자',
+                    data: maleData,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: '여자',
+                    data: femaleData,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    stacked: true,
+                },
+                y: {
+                    stacked: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: districtName + ' 연령대별 인구 분포'
+                }
+            }
+        }
+    });
+}
+
+
+    // GeoJSON 데이터 가져오기
+    $.ajax({
+        dataType: "json",
+        url: "/static/TL_SCCO_CTPRVN.json",
+        success: function(data) {
+            L.geoJSON(data, {
+                style: function(feature) {
+                    var population = getPopulation(feature.properties.CTP_KOR_NM); // 특정 지역의 인구수 가져오기
+                    var fillColor = getColor(population); // 색상 설정을 인구 수에 따라 변경
+                    return {
+                        fillColor: fillColor,
+                        color: 'black',
+                        weight: 1,
+                        fillOpacity: 0.7
+                    };
+                },
+                onEachFeature: function(feature, layer) {
+                    layer.on({
+                        mouseover: function(e) {
+                            layer.setStyle({
+                                fillOpacity: 0.1
+                            });
+                        },
+                        mouseout: function(e) {
+                            layer.setStyle({
+                                fillOpacity: 0.7
+                            });
+                        },
+                        click: function(e) {
+                            var regionName = feature.properties.CTP_KOR_NM;
+                            $('#seoulModal').modal('show');
+                            populateModal(regionName);
+                        }
+                    });
+                }
+            }).addTo(map);
+        }
+    });
+
+    // 특정 지역의 인구수 가져오기
+    function getPopulation(regionName) {
+        var population = 0;
+        $.ajax({
+            dataType: "json",
+            url: "/population",
+            async: false,
+            success: function(data) {
+                var record = data.find(item => item.행정구역 === regionName);
+                if (record) {
+                    population = record.인구수;
+                }
+            }
+        });
+        return population;
+    }
+
+    // 인구수에 따라 색상 결정하기
+    function getColor(population) {
+        return population > 5000000 ? '#b10026' :
+            population > 3000000 ? '#e31a1c' :
+            population > 2000000 ? '#fc4e2a' :
+            population > 1800000 ? '#fd8d3c' :
+            population > 1600000 ? '#feb24c' :
+            population > 1400000 ? '#fed976' :
+            population > 1200000 ? '#ffeda0' :
+            population > 1000000 ? '#ffffcc' :
+                                    '#ffffff'; // 최소 인구수에 대한 색상
+    }
+
+    function populateModal(regionName) {
+    $.ajax({
+        type: "GET",
+        url: "/population",
+        success: function(data) {
+            // 선택된 지역의 데이터만 필터링
+            var regionData = data.filter(item => item.행정구역 === regionName);
+
+            if (regionData.length === 0) {
+                console.log('No data available for this region');
+                return;
+            }
+
+            // 전체 인구 데이터
+            var totalPopulation = regionData.find(item => item.성별 === '전체' && item.연령대 === '전체').인구수;
+
+            // 성별 인구 데이터
+            var malePopulation = regionData.find(item => item.성별 === '남' && item.연령대 === '전체').인구수;
+            var femalePopulation = regionData.find(item => item.성별 === '여' && item.연령대 === '전체').인구수;
+            
+            // 성별 인구 비율 데이터 준비
+            var genderChartData = {
+                labels: ['남성', '여성'],
+                datasets: [{
+                    label: '성별 인구 비율',
+                    data: [malePopulation, femalePopulation],
+                    backgroundColor: ['#1f77b4', '#ff7f0e']
+                }]
+            };
+
+            // 연령대별 인구 분포 데이터 준비
+            var ageDistributionData = regionData.filter(item => 
+                item.성별 === '전체' && item.월 == 6 && item.연령대 !== '전체'
+            ).map(item => ({
+                ageGroup: item.연령대,
+                population: parseInt(item.인구수)
+            }));
+
+            // 차트 초기화 및 업데이트
+            if (genderChart) {
+                genderChart.destroy();
+            }
+            if (ageDistributionChart) {
+                ageDistributionChart.destroy();
+            }
+
+            // 성별 인구 비율 차트 업데이트
+            var ctxGenderChart = document.getElementById('genderChart').getContext('2d');
+            genderChart = new Chart(ctxGenderChart, {
+                type: 'pie',
+                data: genderChartData,
+                options: {
+                    responsive: true,
+                    layout: {
+                    padding: {
+                        left: 5,
+                        right: 5,
+                        top: 0,
+                        bottom: 0
+                        }
+                    }
+                }
+            });
+
+            // 연령대별 인구 분포 차트 업데이트
+            var ctxAgeDistribution = document.getElementById('ageDistributionChart').getContext('2d');
+            ageDistributionChart = new Chart(ctxAgeDistribution, {
+                type: 'bar',
+                data: {
+                    labels: ageDistributionData.map(item => item.ageGroup),
+                    datasets: [{
+                        label: '인구수',
+                        data: ageDistributionData.map(item => item.population),
+                        backgroundColor: '#36a2eb',
+                        borderColor: '#36a2eb',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+
+            // 총 인구 수 업데이트
+            $('#totalPopulation').text(totalPopulation);
+            
+            // 모달 타이틀 업데이트
+            $('#seoulModalLabel').text(regionName + ' 인구 통계');
+        }
+    });
+}
+</script>
+
+{% endblock %}

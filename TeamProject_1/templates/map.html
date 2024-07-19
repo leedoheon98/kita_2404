@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_77c59c6f37bee7f989bb18ffb8cb299c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_77c59c6f37bee7f989bb18ffb8cb299c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_77c59c6f37bee7f989bb18ffb8cb299c = L.map(
+                "map_77c59c6f37bee7f989bb18ffb8cb299c",
+                {
+                    center: [37.5665, 126.978],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 12,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_1d62e6e21a1c85186d1e5332de74a923 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_1d62e6e21a1c85186d1e5332de74a923.addTo(map_77c59c6f37bee7f989bb18ffb8cb299c);
+        
+    
+            var marker_e3c879b7a32ef113037ef784aee0cf4c = L.marker(
+                [37.5665, 126.978],
+                {}
+            ).addTo(map_77c59c6f37bee7f989bb18ffb8cb299c);
+        
+    
+            var icon_55b6c28c0cf75261e92894602c04e9ff = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_e3c879b7a32ef113037ef784aee0cf4c.setIcon(icon_55b6c28c0cf75261e92894602c04e9ff);
+        
+    
+        var popup_7e5cc3ac1f8cca56354afe6bdfde7259 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_3ecff2457bf595c338ed14ff15b6ab9d = $(`<div id="html_3ecff2457bf595c338ed14ff15b6ab9d" style="width: 100.0%; height: 100.0%;">서울 시청</div>`)[0];
+                popup_7e5cc3ac1f8cca56354afe6bdfde7259.setContent(html_3ecff2457bf595c338ed14ff15b6ab9d);
+            
+        
+
+        marker_e3c879b7a32ef113037ef784aee0cf4c.bindPopup(popup_7e5cc3ac1f8cca56354afe6bdfde7259)
+        ;
+
+        
+    
+</script>
+</html>

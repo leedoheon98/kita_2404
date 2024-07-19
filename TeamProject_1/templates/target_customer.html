@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}
+책사이트 이름 - 홈
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="sidebar">
+        <div class="flex-shrink-0 p-3">
+            <a href="/" class="d-flex align-items-center pb-3 mb-3 link-body-emphasis text-decoration-none border-bottom">
+                <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-5 fw-semibold">HOME</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <button class="nav-link btn-toggle" data-bs-toggle="collapse" data-bs-target="#ageCollapse" aria-expanded="false" aria-controls="ageCollapse">
+                        연령대
+                    </button>
+                    <div class="collapse" id="ageCollapse">
+                        <div class="collapse-item">
+                            <ul class="list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">10대</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">20대</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">30대</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">40대</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">50대</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">60대 이상</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link btn-toggle" data-bs-toggle="collapse" data-bs-target="#categoryCollapse" aria-expanded="false" aria-controls="categoryCollapse">
+                        카테고리
+                    </button>
+                    <div class="collapse" id="categoryCollapse">
+                        <div class="collapse-item">
+                            <ul class="list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">가정과 살림</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">자연과학</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">만화/라이트노벨</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">역사</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">건강 취미</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">인문</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">경제 경영</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">자기계발</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">유아</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">소설/시/희곡</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link btn-toggle" data-bs-toggle="collapse" data-bs-target="#genderCollapse" aria-expanded="false" aria-controls="genderCollapse">
+                        성별
+                    </button>
+                    <div class="collapse" id="genderCollapse">
+                        <div class="collapse-item">
+                            <ul class="list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">남성</a></li>
+                                <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">여성</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    </main>
+
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">도서 목록</h1>
+        <div class="row">
+            <!-- Book Item 1 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 1</h5>
+                        <p class="card-text">저자 1</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Book Item 2 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 2</h5>
+                        <p class="card-text">저자 2</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+                        <!-- Book Item 1 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 1</h5>
+                                    <p class="card-text">저자 1</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Book Item 2 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 2</h5>
+                                    <p class="card-text">저자 2</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Book Item 1 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 1</h5>
+                        <p class="card-text">저자 1</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Book Item 2 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 2</h5>
+                        <p class="card-text">저자 2</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+                        <!-- Book Item 1 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 1</h5>
+                                    <p class="card-text">저자 1</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Book Item 2 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 2</h5>
+                                    <p class="card-text">저자 2</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Book Item 1 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 1</h5>
+                        <p class="card-text">저자 1</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Book Item 2 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 2</h5>
+                        <p class="card-text">저자 2</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+                        <!-- Book Item 1 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 1</h5>
+                                    <p class="card-text">저자 1</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Book Item 2 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 2</h5>
+                                    <p class="card-text">저자 2</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                         <!-- Book Item 1 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 1</h5>
+                        <p class="card-text">저자 1</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Book Item 2 -->
+            <div class="col-md-3">
+                <div class="card mb-4 shadow-sm">
+                    <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                    <div class="card-body">
+                        <h5 class="card-title">도서 제목 2</h5>
+                        <p class="card-text">저자 2</p>
+                        <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+                        <!-- Book Item 1 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover1.jpg" class="card-img-top" alt="Book Cover 1">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 1</h5>
+                                    <p class="card-text">저자 1</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Book Item 2 -->
+                        <div class="col-md-3">
+                            <div class="card mb-4 shadow-sm">
+                                <img src="book_cover2.jpg" class="card-img-top" alt="Book Cover 2">
+                                <div class="card-body">
+                                    <h5 class="card-title">도서 제목 2</h5>
+                                    <p class="card-text">저자 2</p>
+                                    <p class="card-text">이것은 도서의 요약입니다. 간단한 설명을 여기에 넣을 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+            <!-- 더 많은 도서 항목 추가 가능 -->
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    {% endblock %}
+    </body>
+</html>

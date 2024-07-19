@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<main class="reader-service-content">
+    <section class="recommendation-intro">
+        <h1>독자 서비스 - 맞춤 책 추천</h1>
+        <p>무슨 책을 읽을지 고민 중인 당신에게 이 책을 추천드립니다!</p>
+    </section>
+    
+    <section class="recommendation-form-container">
+        <form id="book-recommendation-form" class="recommendation-form">
+            <div class="form-group">
+                <label for="age">연령:</label>
+                <input type="number" id="age" name="age" min="1" max="120" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">성별:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">선택하세요</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+            </div>
+            <button id="submitBtn">책 추천 받기</button>
+        </form>
+    </section>
+    
+    <section id="recommendation-result" class="recommendation-result">
+        <script src="{{ url_for('static', filename='js/reader_service.js') }}"></script>
+    </section>
+</main>
+{% endblock %}

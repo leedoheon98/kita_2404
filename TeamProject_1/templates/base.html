@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <script src="static/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{{ url_for('index') }}" class="logo">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Reader Mind">
+            </a>
+            <ul class="menu">
+                <li class="menu-item">
+                    <a href="#" class="menu-link">소개</a>
+                    <ul class="submenu">
+                        <li><a href="/overview">프로젝트 개요</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">출판사.서점 서비스</a>
+                    <ul class="submenu">
+                        <li><a href="{{ url_for('publisher_service') }}">Target Customer</a></li>
+                        <li><a href="{{ url_for('customer_info') }}">지역별 연령 분포도</a></li>
+                        <li><a href="{{ url_for('books_store_info') }}">서울시 서점 분포도</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">독자 서비스</a>
+                    <ul class="submenu">
+                        <li><a href="{{ url_for('reader_service') }}">책 추천</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="{{ url_for('inquiry') }}" class="menu-link">문의 사항</a>
+                </li>
+<!--                <li class="menu-item">
+                    <a href="{{ url_for('ttt') }}" class="menu-link">기능 테스트용 페이지</a>
+                </li>
+-->
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 과정명 : 코리아IT아카데미 AI기반 챗봇 및 OCR 개발 전문가 과정 수강생</p>
+        <p>&copy; 제작자 : Team Project 5T : 김홍준, 이도헌, 윤효준</p>
+        <p>&copy; 출처 : 해당 사이트는 교육용이며 YES24, 인터파크도서, KOSIS 자료를 사용하여 제작되었습니다.</p>
+    </footer>
+</body>
+</html>

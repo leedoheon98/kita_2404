@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}
+책사이트 이름 - 홈
+{% endblock %}
+
+{% block content %}
+    <main>        
+      <div class="container mt-5">
+        <h1 class="text-center mb-4">게시판</h1>
+    
+        <!-- 게시글 작성 폼 -->
+        <div class="card mb-4">
+          <div class="card-header">
+            글 작성하기
+          </div>
+          <div class="card-body">
+            <form id="postForm">
+              <input type="hidden" id="editIndex">
+              <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="title" required>
+              </div>
+              <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" rows="3" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">작성하기</button>
+            </form>
+          </div>
+        </div>
+    
+        <!-- 게시글 검색 -->
+        <div class="mb-4">
+          <input type="text" id="search" class="form-control" placeholder="검색어를 입력하세요...">
+        </div>
+    
+        <!-- 게시글 리스트 -->
+        <div class="card">
+          <div class="card-header">
+            게시글 목록
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성일</th>
+                    <th scope="col">액션</th>
+                  </tr>
+                </thead>
+                <tbody id="postList">
+                  <!-- 게시글이 여기에 추가됩니다 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <script src="js/bootstrap.bundle.min.js"></script>
+    </main>
+
+    <script>
+        document.getElementById('postForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const postList = document.getElementById('postList');
+        const editIndex = document.getElementById('editIndex').value;
+
+        if (editIndex === '') {
+          // New post
+          const newRow = document.createElement('tr');
+          newRow.innerHTML = `
+            <th scope="row">${postList.children.length + 1}</th>
+            <td>${title}</td>
+            <td>${content}</td>
+            <td>${new Date().toLocaleString()}</td>
+            <td>
+              <button class="btn btn-warning btn-sm edit-btn">수정</button>
+              <button class="btn btn-danger btn-sm delete-btn">삭제</button>
+            </td>
+          `;
+          postList.appendChild(newRow);
+        } else {
+          // Edit post
+          const row = postList.children[editIndex];
+          row.children[1].textContent = title;
+          row.children[2].textContent = content;
+          row.children[3].textContent = new Date().toLocaleString();
+          document.getElementById('editIndex').value = '';
+        }
+
+        document.getElementById('title').value = '';
+        document.getElementById('content').value = '';
+      });
+
+      document.getElementById('postList').addEventListener('click', function(event) {
+        if (event.target.classList.contains('edit-btn')) {
+          const row = event.target.parentElement.parentElement;
+          const index = Array.from(row.parentElement.children).indexOf(row);
+          document.getElementById('title').value = row.children[1].textContent;
+          document.getElementById('content').value = row.children[2].textContent;
+          document.getElementById('editIndex').value = index;
+        }
+
+        if (event.target.classList.contains('delete-btn')) {
+          event.target.parentElement.parentElement.remove();
+        }
+      });
+
+      document.getElementById('search').addEventListener('input', function(event) {
+        const searchTerm = event.target.value.toLowerCase();
+        const rows = document.querySelectorAll('#postList tr');
+
+        rows.forEach(row => {
+          const title = row.children[1].textContent.toLowerCase();
+          const content = row.children[2].textContent.toLowerCase();
+          if (title.includes(searchTerm) || content.includes(searchTerm)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    </script>
+  {% endblock %}

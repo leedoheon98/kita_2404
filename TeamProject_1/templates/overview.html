@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+책사이트 이름 - 프로젝트 개요
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="project-title container p-4 shadow-sm fade-in">
+        <h1>5Team project</h1>
+    </section>
+    <section class="project-section container mt-5 p-4 shadow-sm fade-in">
+        <div class="project-description mt-4 d-flex flex-wrap justify-content-around">
+            <div class="project-card p-3 m-2 shadow-sm">
+                <img src="{{ url_for('static', filename='img/media.png') }}" alt="미디어" class="overview-image img-fluid rounded shadow-sm">
+                <p>현대 사회에서 디지털 기기의 보급과 미디어 소비 증가로 인해 전통적인 독서 문화가 줄어들고 있습니다.</p>
+            </div>
+            <div class="project-card p-3 m-2 shadow-sm">
+                <img src="{{ url_for('static', filename='img/reading.png') }}" alt="독서" class="overview-image img-fluid rounded shadow-sm">
+                <p>독서량의 감소는 개인의 성장 뿐만 아니라 사회 전체의 문화적 수준에도 부정적인 영향을 미친다고 볼 수 있습니다.</p>
+            </div>
+            <div class="project-card p-3 m-2 shadow-sm">
+                <img src="{{ url_for('static', filename='img/idea.png') }}" alt="아이디어" class="overview-image img-fluid rounded shadow-sm">
+                <p>독서 문화를 장려하고 출판업계와 독자들이 윈윈 할 수 있도록 도서의 나이대별, 카테고리별 성별 판매량, 판매지수 트렌드를 알아보고 이를 분석하였습니다.</p>
+            </div>
+            <div class="project-card p-3 m-2 shadow-sm">
+                <img src="{{ url_for('static', filename='img/chart.png') }}" alt="인사이트" class="overview-image img-fluid rounded shadow-sm">
+                <p>이에 저희는 독서율 향상을 위해 출판사와 독자들에게 솔루션을 제공해줄 수 있는 홈페이지를 만들었습니다. </br>
+                    저희 홈페이지는 출판사나, 지역서점에는 도서의 트랜드를, 독자에게는 도서를 추천해주는 홈페이지입니다.</p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
