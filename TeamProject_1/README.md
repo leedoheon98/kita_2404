@@ -1,4 +1,4 @@
-# Reader Mind Project
+# 📖 Reader Mind Project
 ## About
 - 출판사나 지역 서점을 위한 신간 도서 추천 프로그램
 ## Purpose
