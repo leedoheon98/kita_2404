@@ -1,3 +1,5 @@
+# M1 DataBase
+This directory covers a learning process for practicing various SQL commands using Oracle.
 ## Contents
 - [hr](hr) : Human Resources database
 - [md](md) : Madang database
