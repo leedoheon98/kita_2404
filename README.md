@@ -1,6 +1,6 @@
 # [코리아 IT 아카데미](https://gangnam.koreaisacademy.com/)
 
-## AI기반 챗봇 및 OCR개발 전문가 과정 (24.04.24 ~ 24.10.28)
+## AI 기반 챗봇 및 OCR개발 전문가 과정 (24.04.24 ~ 24.10.28)
 
 - M1. 데이터베이스 구축 및 활용  
 - M2. 프로그래밍 (파이썬)  
@@ -18,4 +18,4 @@
 - 유용한 사이트들 : 니파, ai-hub(ai 관련 채용 회사), upstage ai
 
 ## Self-Study Repository
-- Wanna check my progress? please visit [🏝 My Educational Oasis](https://github.com/leedoheon98/My-Educational-Oasis)
+- Wanna check my progress? Please visit [🏝 My Educational Oasis](https://github.com/leedoheon98/My-Educational-Oasis)
