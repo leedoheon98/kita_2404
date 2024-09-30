@@ -1,3 +1,5 @@
+This guide line for my project is inspired by [@FireDragonGameStudio](https://www.youtube.com/@firedragongamestudio).  
+(Reference : https://www.youtube.com/watch?v=fuHFrMZ4q_s)
 # Unity Editor - ver. 21.3
 
  Unity Editor 21.3 버전 설치
